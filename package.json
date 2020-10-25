@@ -1,0 +1,57 @@
+{
+  "name": "udagram-image-user",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "engines": {
+    "node": "12.9.1"
+  },
+  "scripts": {
+    "start": "node .",
+    "tsc": "tsc",
+    "clean": "rm -rf www/ || true",
+    "lint": "eslint --ext .js,.ts src/",
+    "dev": "tsnd -r dotenv/config --respawn -T ./src/server.ts",
+    "prod": "tsc && node ./www/server.js",
+    "build": "npm run clean && tsc && cp -rf src/config www/config && cp .npmrc www/.npmrc && cp package.json www/package.json && cd www && zip -r Archive.zip . && cd ..",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Francisco Javier Gaviria Sierra",
+  "license": "MIT",
+  "dependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
+    "aws-sdk": "^2.748.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.18.2",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.22.3",
+    "sequelize-typescript": "^0.6.11",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/bluebird": "^3.5.32",
+    "@types/cors": "^2.8.8",
+    "@types/express": "^4.17.8",
+    "@types/node": "^11.15.22",
+    "@types/sequelize": "^4.28.9",
+    "@types/validator": "^10.11.3",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.12.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^6.2.3",
+    "ts-node-dev": "^1.0.0-pre.62",
+    "tslint": "^5.20.1",
+    "typescript": "^3.9.7"
+  }
+}
