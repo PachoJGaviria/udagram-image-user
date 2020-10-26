@@ -14,6 +14,7 @@
     "dev": "tsnd -r dotenv/config --respawn -T ./src/server.ts",
     "prod": "tsc && node ./www/server.js",
     "build": "npm run clean && tsc && cp -rf src/config www/config && cp .npmrc www/.npmrc && cp package.json www/package.json && cd www && zip -r Archive.zip . && cd ..",
+    "build-ci": "npm run clean && tsc && cp -rf src/migrations www/migrations",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
