@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+
+kind: Deployment
+metadata:
+  name: user-svc
+  labels:
+    app: user-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-svc
+  template:
+    metadata:
+      labels:
+        app: user-svc
+    spec:
+      containers:
+      - name: udagram-image-user
+        image: fgaviria/udagram-image-user
+        ports:
+        - containerPort: 8080
+        resources:
+          requests: { memory: 10Mi, cpu: "0.1" }
+          limits: { memory: 256Mi, cpu: "0.5" }
+        env:
+          - name: DB_USERNAME
+            value: <YOUR_DB_USERNAME>
+          - name: DB_PASSWORD
+            value: <YOUR_DB_PASSWORD>
+          - name: DB_NAME
+            value: <YOUR_DB_NAME>
+          - name: DB_HOST
+            value: <YOUR_DB_HOST>
+          - name: DB_DIALECT
+            value: postgres
+          - name: CLIENTS_URLS
+            value: "*"
+          - name: JWT_SECRET
+            value: <YOUR_JWT_SECRET>
+          - name: PORT
+            value: "8080"
+        livenessProbe:
+          httpGet:
+            path: "/"
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: "/"
+            port: 8080
+          initialDelaySeconds: 3
