@@ -6,8 +6,10 @@ metadata:
   labels:
     run: user-svc
 spec:
-  ports:
-  - port: 8080
-    protocol: TCP
   selector:
-    run: user-svc
+    app: user-svc
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 9898
+  type: ClusterIP
