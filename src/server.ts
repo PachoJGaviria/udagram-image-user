@@ -5,14 +5,15 @@ import {sequelize} from './sequelize';
 
 import {IndexRouter} from './controllers/v0/index.router';
 import {config} from './config/config';
-import {V0_FEED_MODELS, V0_USER_MODELS} from './controllers/v0/model.index';
+import {V0_USER_MODELS} from './controllers/v0/model.index';
 
 (async () => {
-  sequelize.addModels(V0_FEED_MODELS);
   sequelize.addModels(V0_USER_MODELS);
   await sequelize.sync();
 
   const app = express();
+  app.disable('x-powered-by');
+
   const port = process.env.PORT || 8080;
 
   app.use(bodyParser.json());

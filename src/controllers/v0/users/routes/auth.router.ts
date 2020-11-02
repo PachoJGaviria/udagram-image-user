@@ -8,6 +8,8 @@ import {NextFunction} from 'connect';
 
 import * as EmailValidator from 'email-validator';
 import {config} from '../../../../config/config';
+import {v4 as uuidv4} from 'uuid';
+
 
 // eslint-disable-next-line new-cap
 const router: Router = Router();
@@ -100,30 +102,45 @@ router.get('/verification',
 router.post('/login', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
+  const pid = uuidv4();
+  let currentTime = new Date().toLocaleString();
+  console.log(`${currentTime} - ${pid}: Login action started`);
 
   if (!email || !EmailValidator.validate(email)) {
+    const message = 'Email is required or malformed';
+    currentTime = new Date().toLocaleString();
+    console.log(`${currentTime} - ${pid}: Login action finished with error: ${message}`);
     return res.status(400)
-        .send({auth: false, message: 'Email is required or malformed'});
+        .send({auth: false, message: message});
   }
 
   if (!password) {
+    const message = 'Password is required';
+    currentTime = new Date().toLocaleString();
+    console.log(`${currentTime} - ${pid}: Login action finished with error: ${message}`);
     return res.status(400)
-        .send({auth: false, message: 'Password is required'});
+        .send({auth: false, message: message});
   }
 
   const user = await User.findByPk(email);
   if (!user) {
+    currentTime = new Date().toLocaleString();
+    console.log(`${currentTime} - ${pid}: Login action finished with error: Unauthorized - User not found`);
     return res.status(401)
         .send({auth: false, message: 'Unauthorized'});
   }
 
   const authValid = await comparePasswords(password, user.passwordHash);
   if (!authValid) {
+    currentTime = new Date().toLocaleString();
+    console.log(`${currentTime} - ${pid}: Login action finished with error: Unauthorized - Wrong password`);
     return res.status(401)
         .send({auth: false, message: 'Unauthorized'});
   }
 
   const token = await generateJWT(user);
+  currentTime = new Date().toLocaleString();
+  console.log(`${currentTime} - ${pid}: Login action finished Ok for ${email}`);
   res.status(200)
       .send({auth: true, token, user: user.short()});
 });
